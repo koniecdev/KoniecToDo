@@ -14,7 +14,7 @@ public abstract class DesignTimeDbContextFactoryBase<TContext> :
         var env = Environment.GetEnvironmentVariable(AspNetCoreEnvironment);
         if(env == null)
 		{
-            throw new Exception($"Could not resolve environment variable: {AspNetCoreEnvironment}");
+            env = string.Empty;
 		}
         return Create(basePath, env);
     }
