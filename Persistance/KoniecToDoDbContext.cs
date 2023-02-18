@@ -14,9 +14,9 @@ public class KoniecToDoDbContext : DbContext, IKoniecToDoDbContext
 	{
 	}
 
-	public virtual DbSet<Priority>? Priorities { get; set; }
-	public virtual DbSet<TodoTask>? TodoTasks { get; set; }
-	public virtual DbSet<TodoList>? TodoLists { get; set; }
+	public virtual DbSet<Priority> Priorities { get; set; }
+	public virtual DbSet<TodoTask> TodoTasks { get; set; }
+	public virtual DbSet<TodoList> TodoLists { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

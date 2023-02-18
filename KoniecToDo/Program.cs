@@ -1,6 +1,8 @@
+using Application;
 using Infrastructure;
 using Persistance;
 using Serilog;
+using Shared;
 
 WebApplicationBuilder? builder = null;
 var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -45,6 +47,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddShared();
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 builder.Services.AddPersistance(builder.Configuration);
 

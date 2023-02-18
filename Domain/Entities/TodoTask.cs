@@ -20,4 +20,6 @@ public class TodoTask : AuditableEntity
 	public bool Completed { get; set; }
 	public int PriorityId { get; set; }
 	public virtual Priority? Priority { get; set; }
+	public int TodoListId { get; set; }
+	public virtual TodoList? TodoList { get; set; }
 }
