@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Common.Behaviours;
 
-public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
+public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest> where TRequest : IRequest<TRequest>
 {
 	private readonly ILogger<TRequest> _logger;
 	public LoggingBehaviour(ILogger<TRequest> logger)
@@ -13,6 +13,6 @@ public class LoggingBehaviour<TRequest> : IRequestPreProcessor<TRequest>
 	public async Task Process(TRequest request, CancellationToken cancellationToken)
 	{
 		var requestName = typeof(TRequest).Name;
-		_logger.LogInformation("EndPlanner request: {Name} {@Request}", requestName, request);
+		_logger.LogInformation("KoniecToDo request: {Name} {@Request}", requestName, request);
 	}
 }
