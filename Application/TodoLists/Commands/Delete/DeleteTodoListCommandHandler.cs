@@ -10,12 +10,12 @@ public class DeletePriorityCommandHandler : IRequestHandler<DeletePriorityComman
 	}
 	public async Task<Unit> Handle(DeletePriorityCommand request, CancellationToken cancellationToken)
 	{
-		var fromDb = await _db.TodoLists.FirstOrDefaultAsync(m => m.Id == request.Id, cancellationToken);
+		var fromDb = await _db.Priorities.FirstOrDefaultAsync(m => m.Id == request.Id, cancellationToken);
 		if(fromDb == null)
 		{
 			throw new NotFoundException(request.Id);
 		}
-		_db.TodoLists.Remove(fromDb);
+		_db.Priorities.Remove(fromDb);
 		await _db.SaveChangesAsync(cancellationToken);
 		return Unit.Value;
 	}

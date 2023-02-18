@@ -1,4 +1,6 @@
-﻿namespace Shared.Priorities.Queries.GetAll;
+﻿using Shared.Priorities.Queries.GetAll;
+
+namespace Application.Priorities.Queries.GetAll;
 public class GetPrioritiesQueryHandler : IRequestHandler<GetPrioritiesQuery, GetPrioritiesVm>
 {
 	private readonly IKoniecToDoDbContext _db;

@@ -1,4 +1,6 @@
-﻿namespace Shared.TodoLists.Queries.GetAll;
+﻿using Shared.TodoLists.Queries.GetAll;
+
+namespace Application.TodoLists.Queries.GetAll;
 public class GetTodoListsQueryHandler : IRequestHandler<GetTodoListsQuery, GetTodoListsVm>
 {
 	private readonly IKoniecToDoDbContext _db;

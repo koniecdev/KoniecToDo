@@ -12,7 +12,7 @@ public class GetTodoTasksDto : IMapFrom<TodoTask>
 	public int TodoListId { get; set; }
 	public void Mapping(Profile profile)
 	{
-		profile.CreateMap<TodoList, GetTodoTasksDto>()
+		profile.CreateMap<TodoTask, GetTodoTasksDto>()
 			.ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 	}
 }

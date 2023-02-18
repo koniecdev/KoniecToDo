@@ -1,6 +1,6 @@
 ﻿using Shared.TodoTasks.Commands;
 
-namespace Application.TodoLists.Commands;
+namespace Application.TodoTasks.Commands;
 public class CreateTodoTaskCommandHandler : IRequestHandler<CreateTodoTaskCommand, int>
 {
 	private readonly IKoniecToDoDbContext _db;
