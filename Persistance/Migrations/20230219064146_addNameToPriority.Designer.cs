@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistance;
 
@@ -11,9 +12,10 @@ using Persistance;
 namespace Persistance.Migrations
 {
     [DbContext(typeof(KoniecToDoDbContext))]
-    partial class KoniecToDoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230219064146_addNameToPriority")]
+    partial class addNameToPriority
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,32 +51,6 @@ namespace Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Priorities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Color = "#ff0000",
-                            Level = 0,
-                            Name = "Very important",
-                            StatusId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Color = "#ff6D0A",
-                            Level = 0,
-                            Name = "Important",
-                            StatusId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Color = "#00ff00",
-                            Level = 0,
-                            Name = "Normal",
-                            StatusId = 1
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.TodoList", b =>

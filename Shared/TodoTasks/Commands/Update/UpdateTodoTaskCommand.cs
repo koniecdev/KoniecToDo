@@ -9,6 +9,7 @@ public class UpdateTodoTaskCommand : IRequest<Unit>, IMapFrom<TodoTask>
 	public DateTime? Deadline { get; set; }
 	public int? PriorityId { get; set; }
 	public int? TodoListId { get; set; }
+	public bool? Completed { get; set; }
 	public void Mapping(Profile profile)
 	{
 		profile.CreateMap<UpdateTodoTaskCommand, TodoTask>()

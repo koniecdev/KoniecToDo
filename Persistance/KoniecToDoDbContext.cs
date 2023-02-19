@@ -21,6 +21,7 @@ public class KoniecToDoDbContext : DbContext, IKoniecToDoDbContext
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+		new DbInitializer(modelBuilder).Seed();
 	}
 
 	public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())

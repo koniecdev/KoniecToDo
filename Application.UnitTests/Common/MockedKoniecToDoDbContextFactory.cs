@@ -23,11 +23,6 @@ public static class MockedKoniecToDoDbContextFactory
 
 		context.Database.EnsureCreated();
 
-		var prio1 = new Priority() { Id = 1, StatusId = 1, Color = "#ff0000", Level = 0 };
-		context.Priorities.Add(prio1);
-		var prio2 = new Priority() { Id = 2, StatusId = 1, Color = "#00ff00", Level = 1 };
-		context.Priorities.Add(prio2);
-
 		var todoList1 = new TodoList() { Id = 1, StatusId = 1, Name = "List #1"};
 		context.TodoLists.Add(todoList1);
 		var todoList2 = new TodoList() { Id = 2, StatusId = 1, Name = "List #2" };

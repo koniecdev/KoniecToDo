@@ -6,7 +6,6 @@ public class TodoListConfiguration : IEntityTypeConfiguration<TodoList>
 {
 	public void Configure(EntityTypeBuilder<TodoList> builder)
 	{
-		builder.Property(m => m.Id).IsRequired();
 		builder.Property(m => m.Name).IsRequired();
 	}
 }
