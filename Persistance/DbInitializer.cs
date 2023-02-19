@@ -17,8 +17,8 @@ public class DbInitializer
 		{
 			modelBuilder.Entity<Priority>().HasData(
 				new Priority { Id = 1, Level = 0, Color = "#ff0000", StatusId = 1, Name = "Very important" },
-				new Priority { Id = 2, Level = 0, Color = "#ff6D0A", StatusId = 1, Name = "Important" },
-				new Priority { Id = 3, Level = 0, Color = "#00ff00", StatusId = 1, Name = "Normal" }
+				new Priority { Id = 2, Level = 1, Color = "#ff6D0A", StatusId = 1, Name = "Important" },
+				new Priority { Id = 3, Level = 2, Color = "#00ff00", StatusId = 1, Name = "Normal" }
 			);
 		}
 		catch

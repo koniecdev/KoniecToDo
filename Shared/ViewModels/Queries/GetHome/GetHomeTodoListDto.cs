@@ -1,4 +1,4 @@
-﻿namespace Shared.Home.Queries.Get;
+﻿namespace Shared.ViewModels.Queries.GetHome;
 public class GetHomeTodoListDto : IMapFrom<TodoList>
 {
 	public GetHomeTodoListDto()

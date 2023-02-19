@@ -1,5 +1,5 @@
-﻿using Application.Home.Queries.Get;
-using Shared.Home.Queries.Get;
+﻿using Application.ViewModels.Queries.GetHome;
+using Shared.ViewModels.Queries.GetHome;
 
 namespace Application.UnitTests;
 
@@ -20,6 +20,13 @@ public class GetHomeQueryHandlerTest : QueryTestFixtures
 	public async Task GetHomeQueryTest()
 	{
 		var response = await _handler.Handle(new GetHomeQuery(), Token);
-		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 1).ShouldBe(true);
+		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 1 && response.SelectedTodoListId == 2).ShouldBe(true);
+	}
+
+	[Fact]
+	public async Task GetHomeQueryWithIdTest()
+	{
+		var response = await _handler.Handle(new GetHomeQuery(1), Token);
+		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 2 && response.SelectedTodoListId == 1).ShouldBe(true);
 	}
 }
