@@ -2,6 +2,8 @@
 using Shared.TodoLists.Commands;
 using Shared.TodoTasks.Commands;
 using Shared.ViewModels.Queries.GetHome;
+using Shared.ViewModels.Queries.GetTodoList;
+using Shared.ViewModels.Queries.GetTodoTask;
 using System.Text;
 
 namespace KoniecToDoApp.APIClient;
@@ -181,5 +183,33 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 	public async Task DeleteTodoList(int id)
 	{
 		await DeleteTask(id, "todo-lists");
+	}
+
+	public async Task<GetTodoTaskVm> GetTodoTask()
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/todo-task");
+		return await GetTask<GetTodoTaskVm>(urlBuilder);
+	}
+
+	public async Task<GetTodoTaskVm> GetTodoTask(int selectedTodoTaskId)
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/todo-task").Append($"/{selectedTodoTaskId}");
+		return await GetTask<GetTodoTaskVm>(urlBuilder);
+	}
+
+	public async Task<GetTodoListVm> GetTodoList()
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/todo-list");
+		return await GetTask<GetTodoListVm>(urlBuilder);
+	}
+
+	public async Task<GetTodoListVm> GetTodoList(int selectedTodoTaskId)
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/todo-list").Append($"/{selectedTodoTaskId}");
+		return await GetTask<GetTodoListVm>(urlBuilder);
 	}
 }

@@ -1,22 +1,21 @@
-﻿namespace Shared.ViewModels.Queries.GetHome;
-public class GetHomeTodoTaskDto : IMapFrom<TodoTask>
+﻿namespace Shared.ViewModels.Queries.GetTodoTask;
+
+public class GetTodoTaskDto : IMapFrom<TodoTask>
 {
-	public GetHomeTodoTaskDto()
+	public GetTodoTaskDto()
 	{
 		Title = string.Empty;
-		Priority = new();
 	}
-	public int Id { get; set; }
+	public int? Id { get; set; }
 	public string Title { get; set; }
 	public DateTime Deadline { get; set; }
 	public bool Completed { get; set; }
 	public int PriorityId { get; set; }
-	public GetHomeTodoTaskPriorityDto Priority { get; set; }
 	public int TodoListId { get; set; }
 
 	public void Mapping(Profile profile)
 	{
-		profile.CreateMap<TodoTask, GetHomeTodoTaskDto>()
+		profile.CreateMap<TodoTask, GetTodoTaskDto>()
 			.ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 	}
 }

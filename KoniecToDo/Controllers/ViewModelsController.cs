@@ -1,4 +1,6 @@
 ﻿using Shared.ViewModels.Queries.GetHome;
+using Shared.ViewModels.Queries.GetTodoTask;
+using Shared.ViewModels.Queries.GetTodoList;
 
 namespace KoniecToDo.Controllers;
 
@@ -21,6 +23,50 @@ public class ViewModelsController : BaseController
 	public async Task<ActionResult<GetHomeVm>> GetHomeWithSelectedTodoList(int selectedTodoListId)
 	{
 		var response = await Mediator.Send(new GetHomeQuery(selectedTodoListId));
+		if (response is null)
+		{
+			return NotFound();
+		}
+		return Ok(response);
+	}
+
+	[HttpGet("todo-task")]
+	public async Task<ActionResult<GetTodoTaskVm>> GetTodoTask()
+	{
+		var response = await Mediator.Send(new GetTodoTaskQuery());
+		if (response is null)
+		{
+			return NotFound();
+		}
+		return Ok(response);
+	}
+
+	[HttpGet("todo-task/{todoTaskId}")]
+	public async Task<ActionResult<GetTodoTaskVm>> GetTodoTask(int todoTaskId)
+	{
+		var response = await Mediator.Send(new GetTodoTaskQuery(todoTaskId));
+		if (response is null)
+		{
+			return NotFound();
+		}
+		return Ok(response);
+	}
+
+	[HttpGet("todo-list")]
+	public async Task<ActionResult<GetTodoTaskVm>> GetTodoList()
+	{
+		var response = await Mediator.Send(new GetTodoTaskQuery());
+		if (response is null)
+		{
+			return NotFound();
+		}
+		return Ok(response);
+	}
+
+	[HttpGet("todo-list/{todoListId}")]
+	public async Task<ActionResult<GetTodoTaskVm>> GetTodoList(int todoListId)
+	{
+		var response = await Mediator.Send(new GetTodoTaskQuery(todoListId));
 		if (response is null)
 		{
 			return NotFound();

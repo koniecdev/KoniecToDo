@@ -1,7 +1,8 @@
-﻿namespace Shared.ViewModels.Queries.GetHome;
-public class GetHomeTodoTaskPriorityDto : IMapFrom<Priority>
+﻿namespace Shared.ViewModels.Queries.GetTodoTask;
+
+public class GetTodoTaskPriorityDto : IMapFrom<Priority>
 {
-	public GetHomeTodoTaskPriorityDto()
+	public GetTodoTaskPriorityDto()
 	{
 		Color = string.Empty;
 		Name = string.Empty;
@@ -13,7 +14,7 @@ public class GetHomeTodoTaskPriorityDto : IMapFrom<Priority>
 
 	public void Mapping(Profile profile)
 	{
-		profile.CreateMap<Priority, GetHomeTodoTaskPriorityDto>()
+		profile.CreateMap<Priority, GetTodoTaskPriorityDto>()
 			.ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 	}
 }
