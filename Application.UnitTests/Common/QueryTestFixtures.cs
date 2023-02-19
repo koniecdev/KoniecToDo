@@ -1,4 +1,3 @@
-using AutoMapper;
 using Persistance;
 using Shared.Common.Mappings;
 using System;

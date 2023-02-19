@@ -6,7 +6,7 @@ namespace KoniecToDo.Controllers;
 public class ViewModelsController : BaseController
 {
 
-	[HttpGet]
+	[HttpGet("home")]
 	public async Task<ActionResult<GetHomeVm>> GetHome()
 	{
 		var response = await Mediator.Send(new GetHomeQuery());
@@ -17,7 +17,7 @@ public class ViewModelsController : BaseController
 		return Ok(response);
 	}
 
-	[HttpGet("{selectedTodoListId}")]
+	[HttpGet("home/{selectedTodoListId}")]
 	public async Task<ActionResult<GetHomeVm>> GetHomeWithSelectedTodoList(int selectedTodoListId)
 	{
 		var response = await Mediator.Send(new GetHomeQuery(selectedTodoListId));

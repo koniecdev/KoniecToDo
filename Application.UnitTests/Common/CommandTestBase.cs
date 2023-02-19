@@ -1,5 +1,3 @@
-using Application.Common.Interfaces;
-using AutoMapper;
 using Shared.Common.Mappings;
 using Moq;
 using System;
