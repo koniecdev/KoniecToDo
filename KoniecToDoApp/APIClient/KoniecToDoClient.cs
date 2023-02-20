@@ -22,7 +22,7 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 		set { _baseUrl = value; }
 	}
 
-	public KoniecToDoClient(IHttpClientFactory factory, IHttpContextAccessor accessor)
+	public KoniecToDoClient(IHttpClientFactory factory)
 	{
 		_httpClient = factory.CreateClient("KoniecToDoClient");
 		_baseUrl = _httpClient?.BaseAddress?.ToString()+"api/";
@@ -95,7 +95,9 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 				var responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 				if (responseData != null)
 				{
-					throw new Exception(responseData);
+					HttpValidationProblemDetails? validationErrorModel = JsonConvert.DeserializeObject<HttpValidationProblemDetails>(responseData);
+
+					throw new Exception($"Error: {validationErrorModel?.Status} - {validationErrorModel?.Detail}");
 				}
 				throw new Exception("Something went wrong with retrieving server data");
 			}
@@ -117,7 +119,14 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 
 			if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
 			{
-				throw new Exception(response.StatusCode.ToString());
+				var responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+				if (responseData != null)
+				{
+					HttpValidationProblemDetails? validationErrorModel = JsonConvert.DeserializeObject<HttpValidationProblemDetails>(responseData);
+
+					throw new Exception($"Error: {validationErrorModel?.Status} - {validationErrorModel?.Detail}");
+				}
+				throw new Exception("Something went wrong with retrieving server data");
 			}
 		}
 	}
@@ -136,7 +145,14 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 
 			if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
 			{
-				throw new Exception(response.StatusCode.ToString());
+				var responseData = response.Content == null ? null : await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+				if (responseData != null)
+				{
+					HttpValidationProblemDetails? validationErrorModel = JsonConvert.DeserializeObject<HttpValidationProblemDetails>(responseData);
+
+					throw new Exception($"Error: {validationErrorModel?.Status} - {validationErrorModel?.Detail}");
+				}
+				throw new Exception("Something went wrong with retrieving server data");
 			}
 		}
 	}
@@ -152,6 +168,19 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 	{
 		var urlBuilder = new StringBuilder();
 		urlBuilder.Append(BaseUrl).Append("view-models/home").Append($"/{selectedTodoListId}");
+		return await GetTask<GetHomeVm>(urlBuilder);
+	}
+	public async Task<GetHomeVm> GetHome(string stringDate)
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/home/date").Append($"/{stringDate}");
+		return await GetTask<GetHomeVm>(urlBuilder);
+	}
+
+	public async Task<GetHomeVm> GetHome(int selectedTodoListId, string stringDate)
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/home").Append($"/{selectedTodoListId}").Append("/Date").Append($"/{stringDate}");
 		return await GetTask<GetHomeVm>(urlBuilder);
 	}
 
@@ -175,7 +204,7 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 		return await CreateTask(command, "todo-lists");
 	}
 
-	public async Task UpdateTodoList(UpdateTodoTaskCommand command)
+	public async Task UpdateTodoList(UpdateTodoListCommand command)
 	{
 		await UpdateTask(command, "todo-lists");
 	}
@@ -206,10 +235,10 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 		return await GetTask<GetTodoListVm>(urlBuilder);
 	}
 
-	public async Task<GetTodoListVm> GetTodoList(int selectedTodoTaskId)
+	public async Task<GetTodoListVm> GetTodoList(int selectedTodoListId)
 	{
 		var urlBuilder = new StringBuilder();
-		urlBuilder.Append(BaseUrl).Append("view-models/todo-list").Append($"/{selectedTodoTaskId}");
+		urlBuilder.Append(BaseUrl).Append("view-models/todo-list").Append($"/{selectedTodoListId}");
 		return await GetTask<GetTodoListVm>(urlBuilder);
 	}
 }

@@ -17,9 +17,21 @@ public class ToDoController : Controller
 		return View(model: await _client.GetHome());
 	}
 
-	[Route("/{selectedTodoListId}")]
+	[Route("{selectedTodoListId}")]
 	public async Task<ActionResult> Index(int selectedTodoListId)
 	{
 		return View(model: await _client.GetHome(selectedTodoListId));
+	}
+
+	[Route("Date/{stringDate}")]
+	public async Task<ActionResult> Index(string stringDate)
+	{
+		return View(model: await _client.GetHome(stringDate));
+	}
+
+	[Route("{selectedTodoListId}/Date/{stringDate}")]
+	public async Task<ActionResult> Index(int selectedTodoListId, string stringDate)
+	{
+		return View(model: await _client.GetHome(selectedTodoListId, stringDate));
 	}
 }

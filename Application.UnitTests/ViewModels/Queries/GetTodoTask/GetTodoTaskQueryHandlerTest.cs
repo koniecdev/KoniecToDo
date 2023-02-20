@@ -8,12 +8,14 @@ public class GetTodoTaskQueryHandlerTest : QueryTestFixtures
 {
 	private readonly IKoniecToDoDbContext _db;
 	private readonly IMapper _mapper;
+	private readonly IDateTime _dateTime;
 	private readonly GetTodoTaskQueryHandler _handler;
 	public GetTodoTaskQueryHandlerTest(QueryTestFixtures fixtures)
 	{
 		_db = fixtures.Db;
 		_mapper = fixtures.Mapper;
-		_handler = new(_db, _mapper);
+		_dateTime = fixtures.DateTime;
+		_handler = new(_db, _mapper, _dateTime);
 	}
 
 	[Fact]

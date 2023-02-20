@@ -5,17 +5,22 @@ public class GetTodoTaskQueryHandler : IRequestHandler<GetTodoTaskQuery, GetTodo
 {
 	private readonly IKoniecToDoDbContext _db;
 	private readonly IMapper _mapper;
-	public GetTodoTaskQueryHandler(IKoniecToDoDbContext db, IMapper mapper)
+	private readonly IDateTime _dateTime;
+	public GetTodoTaskQueryHandler(IKoniecToDoDbContext db, IMapper mapper, IDateTime dateTime)
 	{
 		_db = db;
 		_mapper = mapper;
+		_dateTime = dateTime;
 	}
 	public async Task<GetTodoTaskVm> Handle(GetTodoTaskQuery request, CancellationToken cancellationToken)
 	{
 		GetTodoTaskVm vm = new();
 		if(request.Id == null)
 		{
-			vm.TodoTask = new();
+			vm.TodoTask = new()
+			{
+				Deadline = _dateTime.Now.AddHours(1)
+			};
 		}
 		else
 		{

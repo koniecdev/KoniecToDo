@@ -30,6 +30,28 @@ public class ViewModelsController : BaseController
 		return Ok(response);
 	}
 
+	[HttpGet("home/Date/{date}")]
+	public async Task<ActionResult<GetHomeVm>> GetHome(string date)
+	{
+		var response = await Mediator.Send(new GetHomeQuery(date));
+		if (response is null)
+		{
+			return NotFound();
+		}
+		return Ok(response);
+	}
+
+	[HttpGet("home/{selectedTodoListId}/Date/{date}")]
+	public async Task<ActionResult<GetHomeVm>> GetHomeWithSelectedTodoList(int selectedTodoListId, string date)
+	{
+		var response = await Mediator.Send(new GetHomeQuery(selectedTodoListId, date));
+		if (response is null)
+		{
+			return NotFound();
+		}
+		return Ok(response);
+	}
+
 	[HttpGet("todo-task")]
 	public async Task<ActionResult<GetTodoTaskVm>> GetTodoTask()
 	{
@@ -55,7 +77,7 @@ public class ViewModelsController : BaseController
 	[HttpGet("todo-list")]
 	public async Task<ActionResult<GetTodoTaskVm>> GetTodoList()
 	{
-		var response = await Mediator.Send(new GetTodoTaskQuery());
+		var response = await Mediator.Send(new GetTodoListQuery());
 		if (response is null)
 		{
 			return NotFound();
@@ -66,7 +88,7 @@ public class ViewModelsController : BaseController
 	[HttpGet("todo-list/{todoListId}")]
 	public async Task<ActionResult<GetTodoTaskVm>> GetTodoList(int todoListId)
 	{
-		var response = await Mediator.Send(new GetTodoTaskQuery(todoListId));
+		var response = await Mediator.Send(new GetTodoListQuery(todoListId));
 		if (response is null)
 		{
 			return NotFound();

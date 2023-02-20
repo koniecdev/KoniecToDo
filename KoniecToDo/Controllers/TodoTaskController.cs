@@ -57,6 +57,13 @@ public class TodoTaskController : BaseController
 		{
 			return BadRequest("ID must be greater than 0");
 		}
+		if(command.Deadline != null)
+		{
+			if (command.Deadline < _dateTime.Now)
+			{
+				return ValidationProblem("Task deadline can not be in past");
+			}
+		}
 		try
 		{
 			await Mediator.Send(command);

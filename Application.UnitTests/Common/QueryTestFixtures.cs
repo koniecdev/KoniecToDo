@@ -1,3 +1,4 @@
+using Infrastructure.Services;
 using Persistance;
 using Shared.Common.Mappings;
 using System;
@@ -9,6 +10,7 @@ public class QueryTestFixtures : IDisposable
 {
 	public KoniecToDoDbContext Db { get; private set; }
 	public IMapper Mapper { get; private set; }
+	public IDateTime DateTime { get; private set; }
 	protected CancellationToken Token { get; private set; }
 
 	public QueryTestFixtures()
@@ -20,6 +22,7 @@ public class QueryTestFixtures : IDisposable
 		});
 		Mapper = configurationProvider.CreateMapper();
 		Token = CancellationToken.None;
+		DateTime = new DateTimeService();
 	}
 	public void Dispose()
 	{

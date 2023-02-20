@@ -14,11 +14,11 @@ public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListComman
 	{
 		var mapped = _mapper.Map<TodoList>(request);
 		_db.TodoLists.Add(mapped);
-		int id = await _db.SaveChangesAsync(cancellationToken);
-		if(id < 1)
+		await _db.SaveChangesAsync(cancellationToken);
+		if(mapped.Id < 1)
 		{
-			throw new DatabaseException(id);
+			throw new DatabaseException(mapped.Id);
 		}
-		return id;
+		return mapped.Id;
 	}
 }

@@ -29,12 +29,15 @@ public static class MockedKoniecToDoDbContextFactory
 		context.TodoLists.Add(todoList2);
 
 
-		var todoTask1 = new TodoTask() { Id = 1, StatusId = 1, Deadline = DateTime.Now.AddDays(1), Completed = false, Title = "Go to shop", PriorityId = 1, TodoListId = 1};
+		var todoTask1 = new TodoTask() { Id = 1, StatusId = 1, Deadline = new DateTime(2023, 2, 19), Completed = false, Title = "Go to shop", PriorityId = 1, TodoListId = 1};
 		context.TodoTasks.Add(todoTask1);
-		var todoTask2 = new TodoTask() { Id = 2, StatusId = 1, Deadline = DateTime.Now.AddDays(2), Completed = false, Title = "Go to friend", PriorityId = 2, TodoListId = 1 };
+		var todoTask2 = new TodoTask() { Id = 2, StatusId = 1, Deadline = new DateTime(2023, 2, 21), Completed = false, Title = "Go to friend", PriorityId = 2, TodoListId = 1 };
 		context.TodoTasks.Add(todoTask2);
-		var todoTask3 = new TodoTask() { Id = 3, StatusId = 1, Deadline = DateTime.Now.AddDays(2), Completed = false, Title = "Buy some food", PriorityId = 2, TodoListId = 2 };
+		var todoTask3 = new TodoTask() { Id = 3, StatusId = 1, Deadline = new DateTime(2023, 2, 21), Completed = true, Title = "Buy some food", PriorityId = 2, TodoListId = 2 };
 		context.TodoTasks.Add(todoTask3);
+		var todoTask4 = new TodoTask() { Id = 4, StatusId = 1, Deadline = new DateTime(2023, 2, 21), Completed = false, Title = "Buy some water", PriorityId = 2, TodoListId = 2 };
+		context.TodoTasks.Add(todoTask4);
+
 
 		context.SaveChanges();
 

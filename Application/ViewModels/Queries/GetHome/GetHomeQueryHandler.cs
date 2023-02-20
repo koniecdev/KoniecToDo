@@ -17,22 +17,34 @@ public class GetHomeQueryHandler : IRequestHandler<GetHomeQuery, GetHomeVm>
 			TodoLists = _mapper.Map<List<GetHomeTodoListDto>>(await _db.TodoLists.Where(m => m.StatusId != 0).ToListAsync(cancellationToken)),
 			TodoTasks = new List<GetHomeTodoTaskDto>()
 		};
-		if (request.TodoListId == null)
+		
+		if(request.TodoListId > 0 && request.StringDate is null)
 		{
-			vm.SelectedTodoListId = await _db.TodoLists.OrderByDescending(m => m.Id).Select(m => m.Id).FirstOrDefaultAsync(cancellationToken);
-			if(vm.SelectedTodoListId == 0)
-			{
-				vm.SelectedTodoListId = null;
-			}
-		}
-		else if(request.TodoListId > 0)
-		{
+			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority)
+				.Where(m => m.StatusId != 0 && m.Completed == false && m.TodoListId == request.TodoListId).ToListAsync(cancellationToken));
 			vm.SelectedTodoListId = request.TodoListId;
 		}
-		if (vm.SelectedTodoListId > 0)
+		else if (request.TodoListId is null && request.StringDate is not null)
 		{
-			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.Priority)
-			.Where(m => m.TodoListId == vm.SelectedTodoListId).ToListAsync(cancellationToken));
+			var dateComponents = request.StringDate.Split("-");
+			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority)
+				.Where(m => m.StatusId != 0 && m.Completed == false && m.TodoList.StatusId != 0 && 
+				m.Deadline.Date == new DateTime(Convert.ToInt32(dateComponents[0]), Convert.ToInt32(dateComponents[1]), Convert.ToInt32(dateComponents[2])))
+				.ToListAsync(cancellationToken));
+		}
+		else if (request.TodoListId > 0 && request.StringDate is not null)
+		{
+			var dateComponents = request.StringDate.Split("-");
+			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority)
+				.Where(m => m.StatusId != 0 && m.Completed == false && m.TodoListId == request.TodoListId &&
+				m.Deadline.Date == new DateTime(Convert.ToInt32(dateComponents[0]), Convert.ToInt32(dateComponents[1]), Convert.ToInt32(dateComponents[2])))
+				.ToListAsync(cancellationToken));
+			vm.SelectedTodoListId = request.TodoListId;
+		}
+		else
+		{
+			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority)
+				.Where(m => m.StatusId != 0 && m.Completed == false && m.TodoList.StatusId != 0).ToListAsync(cancellationToken));
 		}
 		return vm;
 	}

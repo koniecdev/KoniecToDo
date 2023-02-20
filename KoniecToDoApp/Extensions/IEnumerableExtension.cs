@@ -13,5 +13,4 @@ public static class IEnumerableExtension
                    Selected = item.GetPropertyValue("Id").Equals(selectedValue.ToString())
                };
     }
-
 }

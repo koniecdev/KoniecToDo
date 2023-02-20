@@ -6,26 +6,36 @@
             int x = (Model.SelectedTodoListId == null) ? 0 : (int)Model.SelectedTodoListId;
             if(Model.TodoLists?.Count > 0){
                 <select class="changeList" asp-items="@Model.TodoLists?.ToSelectListItem(x)">
+                @if(x == 0){
+                    <option>Select list</option>
+                }
                 </select>
+                if(Model.TodoTasks?.Count > 0){
+                    <input type="date" data-listid="@Model.SelectedTodoListId" class="datePicker">
+                }
+                <a href="/List/Create">Add new List</a>
+                <a href="/Task/Create" class="btn_blue">Add new Task</a>
             }
             else
             {
                 <select class="changeList">
                     <option>No lists available</option>
                 </select>
+                <a href="/List/Create">Add new List</a>
             }
+        }
+    </div>
+    <div class="todolist_controls">
+        @{
+            
             if(Model.TodoLists?.Count > 0){
+                <a href="/List/Update/@Model.SelectedTodoListId">Edit current list</a>
+                <a class="todoDelete" data-id="@Model.SelectedTodoListId">Delete current list</a>
+
                 if(Model.TodoTasks?.Count > 0){
-                    <input type="date">
                     <a href="/">Show all tasks</a>
                     <a href="/">Show Completed</a>
-                }
-                <a href="/List/Add">Add new List</a>
-                <a href="/Task/Add" class="btn_blue">Add new Task</a>
-            }
-            else
-            {
-                <a href="/List/Add" class="btn_blue">Add new List</a>
+                }   
             }
         }
     </div>
@@ -47,11 +57,11 @@
                         <div class="todolist_container_row_priority"><div style="background-color: @item.Priority.Color">@item.Priority.Name</div></div>
                         <div class="todolist_container_row_date">@item.Deadline.ToString("dd.MM.yyyy HH:mm")</div>
                         <div class="todolist_container_row_actions">
-                            <a href="/Task/Update/@item.Id" class="btn_blue">Update</a>
-                            <a href="/Task/Delete/@item.Id" class="btn_blue">Delete</a>
+                            <a href="/Task/Update/@item.Id" class="btn_blue">Edit</a>
+                            <a class="btn_blue deleteTask" data-listid="@item.TodoListId" data-id="@item.Id">Delete</a>
                         </div>
                         <div class="todolist_container_row_completed">
-                            <input type="checkbox" selected="@item.Completed">
+                            <input type="checkbox" data-id="@item.Id" data-listid="@item.TodoListId" checked="@item.Completed">
                         </div>
                     </div>
                 }

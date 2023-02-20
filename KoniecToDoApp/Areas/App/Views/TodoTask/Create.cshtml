@@ -1,70 +1,18 @@
-﻿@model Shared.ViewModels.Queries.GetHome.GetHomeVm
+﻿@model Shared.ViewModels.Queries.GetTodoTask.GetTodoTaskVm
 @using KoniecToDoApp.Extensions;
 <main>
-    <div class="todolist_controls">
+    <form method="post">
+        <label>Title</label>
+        <input asp-for="@Model.TodoTask.Title" required>
+        <label>Task deadline</label>
+        <input type="date" name="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@Model.TodoTask.Deadline?.ToString("yyyy-MM-dd")" required>
+        <input type="time" name="time" value="@Model.TodoTask.Deadline?.ToString("HH:mm")" required>
+        <label>To what list should task belong?</label>
         @{
-            int x = (Model.SelectedTodoListId == null) ? 0 : (int)Model.SelectedTodoListId;
-            if(Model.TodoLists?.Count > 0){
-                <select class="changeList" asp-items="@Model.TodoLists?.ToSelectListItem(x)">
-                </select>
-            }
-            else
-            {
-                <select class="changeList">
-                    <option>No lists available</option>
-                </select>
-            }
-            if(Model.TodoLists?.Count > 0){
-                if(Model.TodoTasks?.Count > 0){
-                    <input type="date">
-                    <a href="/">Show all tasks</a>
-                    <a href="/">Show Completed</a>
-                }
-                <a href="/List/Add">Add new List</a>
-                <a href="/Task/Add" class="btn_blue">Add new Task</a>
-            }
-            else
-            {
-                <a href="/List/Add" class="btn_blue">Add new List</a>
-            }
+            <select asp-for="@Model.TodoTask.TodoListId" asp-items="@Model.TodoLists?.ToSelectListItem(1)"></select>
         }
-    </div>
-    @{
-        if(Model.TodoTasks?.Count > 0)
-        {
-            <div class="todolist_container">
-            <div class="todolist_container_row todolist_container_header">
-                <div>Task</div>
-                <div>Priority</div>
-                <div>Deadline</div>
-                <div>Actions</div>
-                <div>Completed</div>
-            </div>
-                @foreach(var item in Model.TodoTasks)
-                {
-                    <div class="todolist_container_row">
-                        <div class="todolist_container_row_title">@item.Title</div>
-                        <div class="todolist_container_row_priority"><div style="background-color: @item.Priority.Color">@item.Priority.Name</div></div>
-                        <div class="todolist_container_row_date">@item.Deadline.ToString("dd.MM.yyyy HH:mm")</div>
-                        <div class="todolist_container_row_actions">
-                            <a href="/Task/Update/@item.Id" class="btn_blue">Update</a>
-                            <a href="/Task/Delete/@item.Id" class="btn_blue">Delete</a>
-                        </div>
-                        <div class="todolist_container_row_completed">
-                            <input type="checkbox" selected="@item.Completed">
-                        </div>
-                    </div>
-                }
-        </div>
-        }
-        else if(Model.TodoLists?.Count > 0)
-        {
-            <h2>Add some new task!</h2>
-        }
-        else
-        {
-            <h2>Add Your first list!</h2>
-            
-        }
-    }
+        <label>Priority of task</label>
+        <select asp-for="@Model.TodoTask.PriorityId" asp-items="@Model.Priorities?.ToSelectListItem(1)"></select>
+        <input type="submit">
+    </form>
 </main>

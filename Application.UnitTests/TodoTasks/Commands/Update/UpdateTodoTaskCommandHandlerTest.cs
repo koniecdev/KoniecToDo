@@ -23,4 +23,22 @@ public class UpdateTodoTaskCommandHandlerTest : CommandTestBase
 		await _handler.Handle(updated, Token);
 		(fromDb?.Title.Equals(updated.Title)).ShouldBe(true);
 	}
+
+	[Fact]
+	public async Task TestTodoTaskUpdateChecking()
+	{
+		var fromDb = await _db.TodoTasks.FirstOrDefaultAsync(m => m.Id == 1);
+		var updated = new UpdateTodoTaskCommand() { Id = 1, Completed = true };
+		await _handler.Handle(updated, Token);
+		fromDb?.Completed.ShouldBe(true);
+	}
+
+	[Fact]
+	public async Task TestTodoTaskUpdateUpdating()
+	{
+		var fromDb = await _db.TodoTasks.FirstOrDefaultAsync(m => m.Id == 3);
+		var updated = new UpdateTodoTaskCommand() { Id = 3, Title = "testing title" };
+		await _handler.Handle(updated, Token);
+		fromDb?.Completed.ShouldBe(true);
+	}
 }

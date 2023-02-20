@@ -20,7 +20,7 @@ public class GetHomeQueryHandlerTest : QueryTestFixtures
 	public async Task GetHomeQueryTest()
 	{
 		var response = await _handler.Handle(new GetHomeQuery(), Token);
-		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 1 && response.SelectedTodoListId == 2).ShouldBe(true);
+		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 3 && response.SelectedTodoListId == null).ShouldBe(true);
 	}
 
 	[Fact]
@@ -28,5 +28,19 @@ public class GetHomeQueryHandlerTest : QueryTestFixtures
 	{
 		var response = await _handler.Handle(new GetHomeQuery(1), Token);
 		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 2 && response.SelectedTodoListId == 1).ShouldBe(true);
+	}
+
+	[Fact]
+	public async Task GetHomeQueryWithDateTest()
+	{
+		var response = await _handler.Handle(new GetHomeQuery("2023-02-21"), Token);
+		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 2 && response.SelectedTodoListId == null).ShouldBe(true);
+	}
+
+	[Fact]
+	public async Task GetHomeQueryWithIdDateTest()
+	{
+		var response = await _handler.Handle(new GetHomeQuery(2, "2023-02-21"), Token);
+		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 1 && response.SelectedTodoListId == 2).ShouldBe(true);
 	}
 }

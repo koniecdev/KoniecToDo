@@ -8,6 +8,7 @@ public class GetTodoTaskPriorityDto : IMapFrom<Priority>
 		Name = string.Empty;
 	}
 
+	public int Id { get; set; }
 	public int Level { get; set; }
 	public string Color { get; set; }
 	public string Name { get; set; }

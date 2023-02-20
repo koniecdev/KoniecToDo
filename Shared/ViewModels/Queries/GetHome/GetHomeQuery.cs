@@ -8,5 +8,15 @@ public class GetHomeQuery : IRequest<GetHomeVm>
 	{
 		TodoListId = todoListId;
 	}
+	public GetHomeQuery(string stringDate)
+	{
+		StringDate = stringDate;
+	}
+	public GetHomeQuery(int todoListId, string stringDate)
+	{
+		TodoListId = todoListId;
+		StringDate = stringDate;
+	}
 	public int? TodoListId { get; set; }
+	public string? StringDate { get; set; }
 }

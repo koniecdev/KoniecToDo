@@ -1,5 +1,8 @@
-﻿@model Shared.ViewModels.Queries.GetHome.GetHomeVm
+﻿@model Shared.ViewModels.Queries.GetTodoList.GetTodoListVm
 @using KoniecToDoApp.Extensions;
 <main>
-    
+    <form method="post">
+        <input asp-for="@Model.TodoList.Name" required>
+        <input type="submit">
+    </form>
 </main>

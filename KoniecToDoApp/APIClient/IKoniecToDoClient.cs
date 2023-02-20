@@ -9,6 +9,8 @@ public interface IKoniecToDoClient
 {
     Task<GetHomeVm> GetHome();
     Task<GetHomeVm> GetHome(int selectedTodoListId);
+    Task<GetHomeVm> GetHome(string stringDate);
+    Task<GetHomeVm> GetHome(int selectedTodoListId, string stringDate);
 
     Task<GetTodoTaskVm> GetTodoTask();
     Task<GetTodoTaskVm> GetTodoTask(int selectedTodoTaskId);
@@ -21,7 +23,7 @@ public interface IKoniecToDoClient
     Task DeleteTodoTask(int id);
 
     Task<int> CreateTodoList(CreateTodoListCommand command);
-    Task UpdateTodoList(UpdateTodoTaskCommand command);
+    Task UpdateTodoList(UpdateTodoListCommand command);
     Task DeleteTodoList(int id);
 
 }
