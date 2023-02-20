@@ -37,7 +37,8 @@ public static class MockedKoniecToDoDbContextFactory
 		context.TodoTasks.Add(todoTask3);
 		var todoTask4 = new TodoTask() { Id = 4, StatusId = 1, Deadline = new DateTime(2023, 2, 21), Completed = false, Title = "Buy some water", PriorityId = 2, TodoListId = 2 };
 		context.TodoTasks.Add(todoTask4);
-
+		var todoTask5 = new TodoTask() { Id = 5, StatusId = 1, Deadline = new DateTime(2023, 2, 21), Completed = true, Title = "Buy more food", PriorityId = 2, TodoListId = 1 };
+		context.TodoTasks.Add(todoTask5);
 
 		context.SaveChanges();
 

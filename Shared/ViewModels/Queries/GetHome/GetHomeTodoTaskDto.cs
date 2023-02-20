@@ -13,6 +13,7 @@ public class GetHomeTodoTaskDto : IMapFrom<TodoTask>
 	public int PriorityId { get; set; }
 	public GetHomeTodoTaskPriorityDto Priority { get; set; }
 	public int TodoListId { get; set; }
+	public GetHomeTodoTaskTodoListDto TodoList{ get; set; }
 
 	public void Mapping(Profile profile)
 	{

@@ -11,6 +11,10 @@ public interface IKoniecToDoClient
     Task<GetHomeVm> GetHome(int selectedTodoListId);
     Task<GetHomeVm> GetHome(string stringDate);
     Task<GetHomeVm> GetHome(int selectedTodoListId, string stringDate);
+    Task<GetHomeVm> GetHome(bool completed);
+    Task<GetHomeVm> GetHome(int selectedTodoListId, bool completed);
+    Task<GetHomeVm> GetHome(string stringDate, bool completed);
+    Task<GetHomeVm> GetHome(int selectedTodoListId, string stringDate, bool completed);
 
     Task<GetTodoTaskVm> GetTodoTask();
     Task<GetTodoTaskVm> GetTodoTask(int selectedTodoTaskId);

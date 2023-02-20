@@ -10,10 +10,10 @@
                     <option>Select list</option>
                 }
                 </select>
-                if(Model.TodoTasks?.Count > 0){
-                    <input type="date" data-listid="@Model.SelectedTodoListId" class="datePicker">
+                if(Model.TodoTasks?.Count > 0 || ViewBag.SelectedDate != null){
+                    <input type="date" data-listid="@Model.SelectedTodoListId" class="datePicker" value="@ViewBag.SelectedDate">
                 }
-                <a href="/List/Create">Add new List</a>
+                <a href="/List/Create" class="addList">Add new List</a>
                 <a href="/Task/Create" class="btn_blue">Add new Task</a>
             }
             else
@@ -27,15 +27,19 @@
     </div>
     <div class="todolist_controls">
         @{
-            
-            if(Model.TodoLists?.Count > 0){
-                <a href="/List/Update/@Model.SelectedTodoListId">Edit current list</a>
-                <a class="todoDelete" data-id="@Model.SelectedTodoListId">Delete current list</a>
 
-                if(Model.TodoTasks?.Count > 0){
-                    <a href="/">Show all tasks</a>
-                    <a href="/">Show Completed</a>
-                }   
+            if(Model.TodoLists?.Count > 0){
+                if (x > 0)
+                {
+                    <a class="todoEdit" href="/List/Update/@Model.SelectedTodoListId">Edit current list</a>
+                    <a class="todoDelete" data-id="@Model.SelectedTodoListId">Delete current list</a>
+                }
+                if(ViewBag.SelectedDate != null || x != 0)
+                {
+                    <a href="/" class="showAll">Show all tasks</a>
+                }
+
+                <a class="showCompleted" data-completed="@((ViewBag.Completed == null) ? false.ToString() : ViewBag.Completed)" data-listid="@Model.SelectedTodoListId" data-dateset="@ViewBag.SelectedDate">Show Completed</a>
             }
         }
     </div>
@@ -43,33 +47,47 @@
         if(Model.TodoTasks?.Count > 0)
         {
             <div class="todolist_container">
-            <div class="todolist_container_row todolist_container_header">
+            <div class="todolist_container_row todolist_container_header @((x==0)?"extended_row":"")">
                 <div>Task</div>
                 <div>Priority</div>
+                @if (x == 0)
+                {
+                    <div>Belongs to list</div>
+                }
                 <div>Deadline</div>
                 <div>Actions</div>
                 <div>Completed</div>
             </div>
-                @foreach(var item in Model.TodoTasks)
-                {
-                    <div class="todolist_container_row">
-                        <div class="todolist_container_row_title">@item.Title</div>
-                        <div class="todolist_container_row_priority"><div style="background-color: @item.Priority.Color">@item.Priority.Name</div></div>
-                        <div class="todolist_container_row_date">@item.Deadline.ToString("dd.MM.yyyy HH:mm")</div>
-                        <div class="todolist_container_row_actions">
-                            <a href="/Task/Update/@item.Id" class="btn_blue">Edit</a>
-                            <a class="btn_blue deleteTask" data-listid="@item.TodoListId" data-id="@item.Id">Delete</a>
-                        </div>
-                        <div class="todolist_container_row_completed">
-                            <input type="checkbox" data-id="@item.Id" data-listid="@item.TodoListId" checked="@item.Completed">
-                        </div>
+            @foreach(var item in Model.TodoTasks)
+            {
+                <div class="todolist_container_row @((x==0)?"extended_row":"")">
+                    <div class="todolist_container_row_title">@item.Title</div>
+                    <div class="todolist_container_row_priority"><div style="background-color: @item.Priority.Color">@item.Priority.Name</div></div>
+                    @if (x == 0)
+                    {
+                        <div>@item.TodoList.Name</div>
+                    }
+                    <div class="todolist_container_row_date">@item.Deadline.ToString("dd.MM.yyyy HH:mm")</div>
+                    <div class="todolist_container_row_actions">
+                        <a href="/Task/Update/@item.Id" class="btn_blue">Edit</a>
+                        <a class="btn_blue deleteTask" data-listid="@item.TodoListId" data-id="@item.Id">Delete</a>
                     </div>
-                }
-        </div>
+                    <div class="todolist_container_row_completed">
+                        <input type="checkbox" data-id="@item.Id" data-listid="@item.TodoListId" checked="@item.Completed">
+                    </div>
+                </div>
+            }
+            </div>
         }
         else if(Model.TodoLists?.Count > 0)
         {
-            <h2>Add some new task!</h2>
+            if(ViewBag.SelectedDate != null)
+            {
+                <h2>There are no tasks for this day!</h2>
+            }
+            else{
+                <h2>Add some new task!</h2>
+            }
         }
         else
         {

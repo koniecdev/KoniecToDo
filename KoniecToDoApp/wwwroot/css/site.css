@@ -37,10 +37,12 @@ main{
   background-color: var(--darkergrey);
   border: 2px solid #ccc;
   border-radius: 15px;
+  overflow: hidden;
 }
 .todolist_controls{
-  display: flex;
-  gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(4, 250px);
+  grid-gap: 2rem;
   align-items: center;
   justify-content: space-between;
 }
@@ -71,15 +73,18 @@ input[type="date"]{
   padding: .75rem 2rem;
   border-radius: 15px;
   border: 2px solid #ccc;
+  text-align: center;
 }
 .todolist_container_row{
   display: grid;
-  grid-template-columns: 1fr repeat(3, 250px) 150px;
-  align-items: center;
+  grid-template-columns: 1fr 200px repeat(2, 250px) 130px;
+  align-content: center;
 }
 .todolist_container_row > div{
   padding: 1rem;
   text-align: center;
+  display: grid;
+  align-content: center;
 }
 .todolist_container_row > div:first-of-type{
   text-align: left;
@@ -130,4 +135,19 @@ h2{
 }
 .todoDelete, .deleteTask{
   cursor: pointer;
+}
+.extended_row{
+  grid-template-columns: 2fr 1fr 200px repeat(2, 250px) 130px;
+}
+.todolist_controls > select, .todolist_controls > .todoEdit{
+  grid-column: 1/2;
+}
+.todolist_controls > input[type="date"], .todolist_controls > .todoDelete{
+  grid-column: 2/3;
+}
+.todolist_controls > .addList, .todolist_controls > .showAll{
+  grid-column: 3/4;
+}
+.todolist_controls > .btn_blue, .todolist_controls > .showCompleted{
+  grid-column: 4/5;
 }

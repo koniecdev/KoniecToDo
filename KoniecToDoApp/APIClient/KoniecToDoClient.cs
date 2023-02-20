@@ -184,6 +184,34 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 		return await GetTask<GetHomeVm>(urlBuilder);
 	}
 
+	public async Task<GetHomeVm> GetHome(bool completed)
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/home/completed/").Append(completed);
+		return await GetTask<GetHomeVm>(urlBuilder);
+	}
+
+	public async Task<GetHomeVm> GetHome(int selectedTodoListId, bool completed)
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/home").Append($"/{selectedTodoListId}").Append("/completed/").Append(completed);
+		return await GetTask<GetHomeVm>(urlBuilder);
+	}
+
+	public async Task<GetHomeVm> GetHome(string stringDate, bool completed)
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/home/date").Append($"/{stringDate}").Append("/completed/").Append(completed); ;
+		return await GetTask<GetHomeVm>(urlBuilder);
+	}
+
+	public async Task<GetHomeVm> GetHome(int selectedTodoListId, string stringDate, bool completed)
+	{
+		var urlBuilder = new StringBuilder();
+		urlBuilder.Append(BaseUrl).Append("view-models/home").Append($"/{selectedTodoListId}").Append("/Date").Append($"/{stringDate}").Append("/completed/").Append(completed);
+		return await GetTask<GetHomeVm>(urlBuilder);
+	}
+
 	public async Task<int> CreateTodoTask(CreateTodoTaskCommand command)
 	{
 		return await CreateTask(command, "todo-tasks");

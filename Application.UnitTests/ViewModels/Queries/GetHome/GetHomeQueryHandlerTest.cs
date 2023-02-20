@@ -43,4 +43,32 @@ public class GetHomeQueryHandlerTest : QueryTestFixtures
 		var response = await _handler.Handle(new GetHomeQuery(2, "2023-02-21"), Token);
 		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 1 && response.SelectedTodoListId == 2).ShouldBe(true);
 	}
+
+	[Fact]
+	public async Task GetHomeQueryTestCompleted()
+	{
+		var response = await _handler.Handle(new GetHomeQuery(true), Token);
+		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 2 && response.SelectedTodoListId == null).ShouldBe(true);
+	}
+
+	[Fact]
+	public async Task GetHomeQueryWithIdTestCompleted()
+	{
+		var response = await _handler.Handle(new GetHomeQuery(1, true), Token);
+		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 1 && response.SelectedTodoListId == 1).ShouldBe(true);
+	}
+
+	[Fact]
+	public async Task GetHomeQueryWithDateTestCompleted()
+	{
+		var response = await _handler.Handle(new GetHomeQuery("2023-02-21", true), Token);
+		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 2 && response.SelectedTodoListId == null).ShouldBe(true);
+	}
+
+	[Fact]
+	public async Task GetHomeQueryWithIdDateTestCompleted()
+	{
+		var response = await _handler.Handle(new GetHomeQuery(2, "2023-02-21", true), Token);
+		(response.TodoLists?.Count == 2 && response.TodoTasks?.Count == 1 && response.SelectedTodoListId == 2).ShouldBe(true);
+	}
 }

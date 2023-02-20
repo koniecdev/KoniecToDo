@@ -29,7 +29,29 @@
             window.location.href = "/"+listId+"/Date/"+selectedDate;
         }
         else{
-            window.location.href = "Date/"+selectedDate;
+            window.location.href = "/Date/"+selectedDate;
+        }
+    });
+    $(".showCompleted").on("click", function(){
+        var listId = $(this).data("listid");
+        var dateSet = $(this).data("dateset");
+        var completed = $(this).data("completed");
+        var display = false;
+        var displayStr = "";
+        if(completed == "False"){
+            displayStr = "/Completed/True"
+        }
+        if(listId != "" && dateSet == ""){
+            window.location.href = "/"+listId+displayStr;
+        }
+        else if(listId == "" && dateSet != ""){
+            window.location.href = "/Date/"+dateSet+displayStr;
+        }
+        else if(listId != "" && dateSet != ""){
+            window.location.href = "/"+listId+"/Date/"+dateSet+displayStr;
+        }
+        else{
+            window.location.href = displayStr.substring(1, displayStr.length);
         }
     });
 });
