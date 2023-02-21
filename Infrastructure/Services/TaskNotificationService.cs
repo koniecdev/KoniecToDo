@@ -38,7 +38,7 @@ public class TaskNotificationService : IHostedService, IDisposable
             if (_db != null && _dateTime != null)
 			{
                 var tasks = _db.TodoTasks.Include(m => m.TodoList)
-                .Where(m => m.Deadline <= _dateTime.Now.AddMinutes(2) && m.Deadline > _dateTime.Now && m.TodoList.StatusId != 0 && m.StatusId != 0 && m.Completed != true).ToList();
+                .Where(m => m.Deadline <= _dateTime.Now.AddMinutes(1) && m.Deadline > _dateTime.Now && m.TodoList.StatusId != 0 && m.StatusId != 0 && m.Completed != true).ToList();
                 foreach (var task in tasks)
                 {
                     await _hubContext.Clients.All.SendAsync("ReceiveNotification", $"Task {task.Title} is going to expire in a moment!", $"{task.Id}");

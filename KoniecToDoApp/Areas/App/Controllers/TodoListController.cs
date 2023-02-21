@@ -28,8 +28,18 @@ public class TodoListController : Controller
 	public async Task<ActionResult> Create(GetTodoListVm vm)
 	{
 		CreateTodoListCommand command = _mapper.Map<CreateTodoListCommand>(vm.TodoList);
-		var id = await _client.CreateTodoList(command);
-		return LocalRedirect($"/{id}");
+		try
+		{
+			var id = await _client.CreateTodoList(command);
+			return LocalRedirect($"/{id}");
+		}
+		catch (Exception ex)
+		{
+			ViewBag.Error = ex.Message;
+			GetTodoListVm newVm = await _client.GetTodoList();
+			return View(model: newVm);
+		}
+		
 	}
 
 	[Route("/List/Update/{selectedTodoListId}")]
@@ -43,8 +53,19 @@ public class TodoListController : Controller
 	public async Task<ActionResult> Update(GetTodoListVm vm)
 	{
 		UpdateTodoListCommand command = _mapper.Map<UpdateTodoListCommand>(vm.TodoList);
-		await _client.UpdateTodoList(command);
-		return LocalRedirect($"/{command.Id}");
+		try
+		{
+			await _client.UpdateTodoList(command);
+			return LocalRedirect($"/{command.Id}");
+		}
+		catch (Exception ex)
+		{
+			ViewBag.Error = ex.Message;
+			GetTodoListVm newVm = await _client.GetTodoList(command.Id);
+			newVm.TodoList = vm.TodoList;
+			return View(model: newVm);
+		}
+		
 	}
 
 	[Route("/List/Delete/{selectedTodoListId}")]

@@ -96,8 +96,8 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 				if (responseData != null)
 				{
 					HttpValidationProblemDetails? validationErrorModel = JsonConvert.DeserializeObject<HttpValidationProblemDetails>(responseData);
-
-					throw new Exception($"Error: {validationErrorModel?.Status} - {validationErrorModel?.Detail}");
+					var validationFailedString = $"Error: {validationErrorModel?.Status} - {validationErrorModel?.Detail}";
+					throw new Exception(validationFailedString);
 				}
 				throw new Exception("Something went wrong with retrieving server data");
 			}
@@ -123,8 +123,8 @@ public partial class KoniecToDoClient : IKoniecToDoClient
 				if (responseData != null)
 				{
 					HttpValidationProblemDetails? validationErrorModel = JsonConvert.DeserializeObject<HttpValidationProblemDetails>(responseData);
-
-					throw new Exception($"Error: {validationErrorModel?.Status} - {validationErrorModel?.Detail}");
+					var validationFailedString = $"Error: {validationErrorModel?.Status} - {validationErrorModel?.Detail}";
+					throw new Exception(validationFailedString);
 				}
 				throw new Exception("Something went wrong with retrieving server data");
 			}

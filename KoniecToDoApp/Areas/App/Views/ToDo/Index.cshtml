@@ -39,7 +39,7 @@
                     <a href="/" class="showAll">Show all tasks</a>
                 }
 
-                <a class="showCompleted" data-completed="@((ViewBag.Completed == null) ? false.ToString() : ViewBag.Completed)" data-listid="@Model.SelectedTodoListId" data-dateset="@ViewBag.SelectedDate">Show Completed</a>
+                <a class="showCompleted" data-completed="@((ViewBag.Completed == null) ? false.ToString() : ViewBag.Completed)" data-listid="@Model.SelectedTodoListId" data-dateset="@ViewBag.SelectedDate">@((ViewBag.Completed == null) ? "Show completed" : "Show not completed")</a>
             }
         }
     </div>
@@ -73,7 +73,12 @@
                         <a class="btn_blue deleteTask" data-listid="@item.TodoListId" data-id="@item.Id">Delete</a>
                     </div>
                     <div class="todolist_container_row_completed">
+                    @if(x == 0){
+                        <input type="checkbox" data-id="@item.Id" data-listid="0" checked="@item.Completed">
+                    }
+                    else{
                         <input type="checkbox" data-id="@item.Id" data-listid="@item.TodoListId" checked="@item.Completed">
+                    }
                     </div>
                 </div>
             }
@@ -96,6 +101,4 @@
         }
     }
 </main>
-<div class="notifications_container">
-</div>
 

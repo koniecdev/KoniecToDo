@@ -23,14 +23,14 @@ public class GetHomeQueryHandler : IRequestHandler<GetHomeQuery, GetHomeVm>
 		}
 		if(request.TodoListId > 0 && request.StringDate is null)
 		{
-			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority)
+			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority).OrderBy(m=>m.Deadline)
 			.Where(m => m.StatusId != 0 && m.Completed == request.Completed && m.TodoListId == request.TodoListId).ToListAsync(cancellationToken));
 			vm.SelectedTodoListId = request.TodoListId;
 		}
 		else if (request.TodoListId is null && request.StringDate is not null)
 		{
 			var dateComponents = request.StringDate.Split("-");
-			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority)
+			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority).OrderBy(m => m.Deadline)
 				.Where(m => m.StatusId != 0 && m.Completed == request.Completed && m.TodoList.StatusId != 0 && 
 				m.Deadline.Date == new DateTime(Convert.ToInt32(dateComponents[0]), Convert.ToInt32(dateComponents[1]), Convert.ToInt32(dateComponents[2])))
 				.ToListAsync(cancellationToken));
@@ -38,7 +38,7 @@ public class GetHomeQueryHandler : IRequestHandler<GetHomeQuery, GetHomeVm>
 		else if (request.TodoListId > 0 && request.StringDate is not null)
 		{
 			var dateComponents = request.StringDate.Split("-");
-			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority)
+			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority).OrderBy(m => m.Deadline)
 				.Where(m => m.StatusId != 0 && m.Completed == request.Completed && m.TodoListId == request.TodoListId &&
 				m.Deadline.Date == new DateTime(Convert.ToInt32(dateComponents[0]), Convert.ToInt32(dateComponents[1]), Convert.ToInt32(dateComponents[2])))
 				.ToListAsync(cancellationToken));
@@ -46,7 +46,7 @@ public class GetHomeQueryHandler : IRequestHandler<GetHomeQuery, GetHomeVm>
 		}
 		else
 		{
-			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority)
+			vm.TodoTasks = _mapper.Map<List<GetHomeTodoTaskDto>>(await _db.TodoTasks.Include(m => m.TodoList).Include(m => m.Priority).OrderBy(m => m.Deadline)
 				.Where(m => m.StatusId != 0 && m.Completed == request.Completed && m.TodoList.StatusId != 0).ToListAsync(cancellationToken));
 		}
 		return vm;

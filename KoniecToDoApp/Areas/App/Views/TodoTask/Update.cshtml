@@ -1,9 +1,13 @@
 ﻿@model Shared.ViewModels.Queries.GetTodoTask.GetTodoTaskVm
 @using KoniecToDoApp.Extensions;
 <main>
+    @if(ViewBag.Error != null){
+    <p style="color: #ff0000; font-size: 18px; font-weight: 600">
+		@ViewBag.Error;
+    </p>
+    }
     <form method="post">
         <label>Title</label>
-        <input type="hidden" asp-for="@Model.TodoTask.Id">
         <input asp-for="@Model.TodoTask.Title">
         <label>Task deadline</label>
         <input type="date" name="date" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@Model.TodoTask.Deadline?.ToString("yyyy-MM-dd")">
@@ -14,6 +18,7 @@
         }
         <label>Priority of task</label>
         <select asp-for="@Model.TodoTask.PriorityId" asp-items="@Model.Priorities?.ToSelectListItem((Model.TodoTask.TodoListId is null) ? 0 : (int)Model.TodoTask.TodoListId)"></select>
-        <input type="submit">
+        <input type="submit" value="Update Task" value="Update List">
+        <input type="hidden" asp-for="@Model.TodoTask.Id">
     </form>
 </main>

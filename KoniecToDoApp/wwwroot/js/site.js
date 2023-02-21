@@ -50,7 +50,12 @@
             window.location.href = "/"+listId+"/Date/"+dateSet+displayStr;
         }
         else{
-            window.location.href = displayStr.substring(1, displayStr.length);
+            if(displayStr.length > 0){
+                window.location.href = displayStr.substring(1, displayStr.length);
+            }
+            else{
+                window.location.href = "/";
+            }
         }
     });
 });

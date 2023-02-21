@@ -30,8 +30,18 @@ public class TodoTaskController : Controller
 	{
 		vm.TodoTask.Deadline = DateTime.ParseExact(Request.Form["date"] + " " + Request.Form["time"], "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 		CreateTodoTaskCommand command = _mapper.Map<CreateTodoTaskCommand>(vm.TodoTask);
-		await _client.CreateTodoTask(command);
-		return LocalRedirect($"/{vm.TodoTask.TodoListId}");
+		try
+		{
+			await _client.CreateTodoTask(command);
+			return LocalRedirect($"/{vm.TodoTask.TodoListId}");
+		}
+		catch(Exception ex)
+		{
+			ViewBag.Error = ex.Message;
+			GetTodoTaskVm newVm = await _client.GetTodoTask();
+			newVm.TodoTask = vm.TodoTask;
+			return View(model: newVm);
+		}
 	}
 
 	[Route("Task/Update/{selectedTodoTaskId}")]
@@ -46,8 +56,18 @@ public class TodoTaskController : Controller
 	{
 		vm.TodoTask.Deadline = DateTime.ParseExact(Request.Form["date"] + " " + Request.Form["time"], "yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture);
 		UpdateTodoTaskCommand command = _mapper.Map<UpdateTodoTaskCommand>(vm.TodoTask);
-		await _client.UpdateTodoTask(command);
-		return LocalRedirect($"/{vm.TodoTask.TodoListId}");
+		try
+		{
+			await _client.UpdateTodoTask(command);
+			return LocalRedirect($"/{vm.TodoTask.TodoListId}");
+		}
+		catch (Exception ex)
+		{
+			ViewBag.Error = ex.Message;
+			GetTodoTaskVm newVm = await _client.GetTodoTask(command.Id);
+			newVm.TodoTask = vm.TodoTask;
+			return View(model: newVm);
+		}
 	}
 
 	[Route("Task/Complete/{id}/{isChecked}/{returnListId}")]
@@ -59,6 +79,10 @@ public class TodoTaskController : Controller
 			Completed = isChecked
 		};
 		await _client.UpdateTodoTask(command);
+		if(returnListId == 0)
+		{
+			return LocalRedirect("/");
+		}
 		return LocalRedirect("/"+returnListId.ToString());
 	}
 

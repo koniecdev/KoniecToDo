@@ -1,9 +1,15 @@
 ﻿@model Shared.ViewModels.Queries.GetTodoList.GetTodoListVm
 @using KoniecToDoApp.Extensions;
 <main>
+    @if(ViewBag.Error != null){
+    <p style="color: #ff0000; font-size: 18px; font-weight: 600">
+		@ViewBag.Error;
+    </p>
+    }
     <form method="post">
-        <input type="hidden" asp-for="@Model.TodoList.Id">
+        <label>List name</label>
         <input asp-for="@Model.TodoList.Name" required>
         <input type="submit">
+        <input type="hidden" asp-for="@Model.TodoList.Id">
     </form>
 </main>
