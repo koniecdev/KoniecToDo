@@ -40,7 +40,7 @@ builder.Services.AddCors(options =>
 {
 	options.AddPolicy("MyOrigins", policy =>
 	{
-		policy.WithOrigins("https://localhost:7294").AllowAnyMethod().AllowAnyHeader();
+		policy.WithOrigins("https://localhost:7294").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
 	});
 });
 
@@ -49,8 +49,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddShared();
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure();
 builder.Services.AddPersistance(builder.Configuration);
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
@@ -62,9 +62,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
+app.UseRouting();
 app.UseCors("MyOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+	endpoints.MapHub<NotificationHub>("/notification-hub");
+});
 
 app.Run();

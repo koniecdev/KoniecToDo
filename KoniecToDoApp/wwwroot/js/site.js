@@ -36,7 +36,6 @@
         var listId = $(this).data("listid");
         var dateSet = $(this).data("dateset");
         var completed = $(this).data("completed");
-        var display = false;
         var displayStr = "";
         if(completed == "False"){
             displayStr = "/Completed/True"

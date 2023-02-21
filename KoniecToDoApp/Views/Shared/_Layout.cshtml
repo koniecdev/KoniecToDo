@@ -11,5 +11,51 @@
     @RenderBody()
     <script src="/lib/jquery-3.6.3.min.js"></script>
     <script src="/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:7127/notification-hub")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+        connection.on("ReceiveNotification", function (message, id) {
+            if (Notification.permission === "granted") {
+                new Notification("Task reminder", {
+                    body: message
+                });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        new Notification("Task reminder", {
+                            body: message
+                        });
+                    }
+                });
+            }
+
+            let container = $('.notifications_container');
+            if($("div[data-notid='"+id+"']").length == 0){
+                let notification = $('<div data-notid="'+id+'">').addClass('notification').text(message);
+                container.append(notification);
+            }
+        });
+
+        async function start() {
+            try {
+                await connection.start();
+                console.log("SignalR Connected.");
+            } catch (err) {
+                console.log(err);
+                setTimeout(start, 5000);
+            }
+        };
+
+        connection.onclose(async () => {
+            await start();
+        });
+
+        // Start the connection.
+        start();
+    </script>
 </body>
 </html>

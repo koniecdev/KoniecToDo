@@ -1,5 +1,7 @@
 ﻿using KoniecToDoApp.APIClient;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Client;
+using System.Diagnostics;
 
 namespace KoniecToDoApp.Controllers;
 
@@ -7,13 +9,34 @@ namespace KoniecToDoApp.Controllers;
 public class ToDoController : Controller
 {
 	private readonly IKoniecToDoClient _client;
+	//public List<string> Notifications { get; set; }
 	public ToDoController(IKoniecToDoClient client)
 	{
 		_client = client;
+		//Notifications = new();
 	}
 
 	public async Task<ActionResult> Index()
 	{
+		//HubConnection connection = new HubConnectionBuilder()
+		//		.WithUrl("https://localhost:7127/notification-hub")
+		//		.WithAutomaticReconnect()
+		//		.Build();
+		//connection.On<string>("ReceiveNotification", (message) =>
+		//{
+		//	Notifications.Add(message);
+		//	ViewBag.Notifications = Notifications;
+		//});
+		//try
+		//{
+		//	await connection.StartAsync();
+		//	Debug.WriteLine("connected");
+		//}
+		//catch (Exception ex)
+		//{
+		//	Debug.WriteLine(ex);
+		//}
+		
 		return View(model: await _client.GetHome());
 	}
 
